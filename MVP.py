@@ -1,13 +1,17 @@
-from calculateMVP import calculate
+from Calculate_MVP import Calculate
+from Basketball_model import BasketBallSystem
+from Handball_model import HandBallSystem
 
 
 class MVP:
     def __init__(self):
-        self.calculate_class = calculate()
         self.start = False
+        self.basketball_player = BasketBallSystem()
+        self.handball_player = HandBallSystem()
+        self.calculate = Calculate()
 
     def readFile(self):
-        f = open("MVP/data/Basketball.txt", "r")
+        f = open("data/Basketball.txt", "r")
 
         content = f.readlines()
 
@@ -16,24 +20,24 @@ class MVP:
                 self.start = True
                 continue
             elif not self.start:
-                self.calculate_class.bug_file("wrong files format")
-            self.calculate_class.set_basketball_player(player_content=player)
+                self.calculate.bug_file("wrong files format")
+            self.basketball_player.set_basketball_player(player_content=player)
         self.Winner_player("BASKETBALL")
         f.close()
 
         # reset to start calculate another one
         self.reset()
 
-        f = open("MVP/data/handball.txt", "r")
+        f = open("data/handball.txt", "r")
         content = f.readlines()
         for player in content:
             if "HANDBALL" in player:
                 self.start = True
                 continue
             elif not self.start:
-                self.calculate_class.bug_file("wrong files format")
-            self.calculate_class.set_handball_player(player_content=player)
-            
+                self.calculate.bug_file("wrong files format")
+            self.handball_player.set_handball_player(player_content=player)
+        f.close()
 
         self.Winner_player("HANDBALL")
         f.close()
@@ -42,12 +46,13 @@ class MVP:
 
         if type_game == "HANDBALL":
             print("************************ HANDBALL************************")
-            team_points = self.calculate_class.team_points_handball
-            player_list = self.calculate_class.handball_player_list
+            team_points = self.handball_player.get_team_points()
+            player_list = self.handball_player.handball_player_list
         else:
             print("************************ BASKTBALL************************")
-            team_points = self.calculate_class.team_points_basketball
-            player_list = self.calculate_class.BasketBallPlayer_list
+            team_points = self.basketball_player.get_team_points()
+            player_list = self.basketball_player.BasketBallPlayer_list
+
         team_winner = ""
         team_score = 0
         for team, score in team_points.items():
@@ -69,7 +74,6 @@ class MVP:
 
     def reset(self):
         self.start = False
-        self.calculate_class.players_nickname = []
 
 
 if __name__ == "__main__":
