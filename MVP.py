@@ -19,6 +19,7 @@ class MVP:
                 self.calculate_class.bug_file("wrong files format")
             self.calculate_class.set_basketball_player(player_content=player)
         self.Winner_player("BASKETBALL")
+        f.close()
 
         # reset to start calculate another one
         self.reset()
@@ -32,8 +33,10 @@ class MVP:
             elif not self.start:
                 self.calculate_class.bug_file("wrong files format")
             self.calculate_class.set_handball_player(player_content=player)
+            
 
         self.Winner_player("HANDBALL")
+        f.close()
 
     def Winner_player(self, type_game):
 
